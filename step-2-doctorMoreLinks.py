@@ -67,7 +67,8 @@ with open(sourceFilePath) as sf:
                         jingyanLink = l.replace('.htm','/jingyan/1.htm')
                         offlineCommentLink = 'https:'+requests.head(jingyanLink, headers=defaultHeaders).headers.get('Location')
 
-                rf.write('\n'+defaultSeperator.join([n,doctorID,personalWeb,offlineCommentLink]))
+                if not doctorID == '':
+                    rf.write('\n'+defaultSeperator.join([n,doctorID,personalWeb,offlineCommentLink]))
 
             except Exception as e:
                 traceback.print_exc()
