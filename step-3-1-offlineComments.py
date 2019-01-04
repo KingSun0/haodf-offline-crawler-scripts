@@ -3,7 +3,6 @@
 
 from bs4 import BeautifulSoup
 from time import sleep
-import re
 import requests
 import traceback
 
