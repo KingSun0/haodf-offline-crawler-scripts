@@ -29,7 +29,7 @@ with open(sourceFilePath) as sf:
     with open(resultFilePath, 'w') as rf:
 
         rf.write(defaultSeperator.join(['医生姓名','职称','科室',
-                                        '擅长','执业经历','最近可约时间']))
+                                        '擅长','执业经历']))
         for row in sf:
 
             [n,i,p,l] = row.strip().split(defaultSeperator)
@@ -49,15 +49,7 @@ with open(sourceFilePath) as sf:
                 soup2 = BeautifulSoup(res2.text,'html.parser')
                 strength_exp = defaultSeperator.join([' '.join(h.text.strip().split()) for h in soup2.select('p.hh')])
 
-                jiahaoLink = 'https://jiahao.haodf.com/info_'+i+'.html'
-                res3 = requests.get(jiahaoLink, headers=defaultHeaders)
-                soup3 = BeautifulSoup(res3.text,'html.parser')
-                aptTime = ''
-                aptBlock = soup3.select('p.r-c-i-result > span')
-                if len(aptBlock) > 0:
-                    aptTime = aptBlock[0].text.strip()
-
-                rf.write('\n'+defaultSeperator.join([name_ocp,department,strength_exp,aptTime]))
+                rf.write('\n'+defaultSeperator.join([name_ocp,department,strength_exp]))
 
             except Exception as e:
                 traceback.print_exc()
