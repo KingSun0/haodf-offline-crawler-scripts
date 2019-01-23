@@ -58,7 +58,7 @@ print('Finished crawling hospital pages, totally '+str(len(hospitals.keys()))+' 
 # GRAB DEPARTMENT DATA
 print('Starting crawling department pages ...')
 
-desiredDepartments  = ['骨科','儿科']
+desiredDepartmentKeywords  = ['骨','儿科']
 departments = dict()
 counter = 0
 
@@ -75,7 +75,11 @@ for h,l in hospitals.items():
         dList = soupD.select('li')[0].select('a')
 
         for d in dList:
-            if d.text in desiredDepartments:
+            needed = False
+            for dkey in desiredDepartmentKeywords:
+                if dkey in d.text:
+                    needed = True
+            if needed:
                 print('Crawling link of ' + h + ' ' + d.text)
                 departments['-'.join([h,d.text])] = 'https://www.haodf.com'+d['href']
 
