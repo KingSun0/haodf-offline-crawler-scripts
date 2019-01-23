@@ -79,8 +79,6 @@ for h,l in hospitals.items():
                 print('Crawling link of ' + h + ' ' + d.text)
                 departments['-'.join([h,d.text])] = 'https://www.haodf.com'+d['href']
 
-        if (counter>5): break
-
     except Exception as e:
         traceback.print_exc()
         exit(1)
