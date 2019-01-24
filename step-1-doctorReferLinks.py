@@ -58,7 +58,9 @@ print('Finished crawling hospital pages, totally '+str(len(hospitals.keys()))+' 
 # GRAB DEPARTMENT DATA
 print('Starting crawling department pages ...')
 
-desiredDepartmentKeywords  = ['骨','儿科']
+includedDepartmentKeywords  = ['骨','儿科']
+excludedDepartmentKeywords  = []
+includedHospitalKeywords = []
 departments = dict()
 counter = 0
 
@@ -75,10 +77,26 @@ for h,l in hospitals.items():
         dList = soupD.select('li')[0].select('a')
 
         for d in dList:
+
+            # 默认不抓取
             needed = False
-            for dkey in desiredDepartmentKeywords:
-                if dkey in d.text:
+
+            # 抓取含有关键字的科室(在61行添加 includedDepartmentKeywords)
+            for indkey in includedDepartmentKeywords:
+                if indkey in d.text:
                     needed = True
+
+            # 剔除含有关键字的科室(在62行添加 excludedDepartmentKeywords)
+            for exdkey in excludedDepartmentKeywords:
+                if exdkey in d.text:
+                    needed = False
+
+            # 抓取指定医院所有科室(在63行添加 includedHospitalKeywords)
+            for inhkey in includedHospitalKeywords:
+                if inhkey in h:
+                    needed = True
+
+            # 依据以上逻辑判断运行
             if needed:
                 print('Crawling link of ' + h + ' ' + d.text)
                 departments['-'.join([h,d.text])] = 'https://www.haodf.com'+d['href']
