@@ -41,13 +41,8 @@ with open(sourceFilePath) as sf:
 
         for row in sf:
 
-            # REMOVE ME
-            # if counter%100 != 0:
-            #     counter += 1
-            #     continue
-            # END
-
-            [docName,docID,p,l] = row.strip().split(defaultSeperator)
+            # [docName,docID,p,l,dp,il,rg] ~= [医生姓名,医生ID,个人网站,评价分享链接,医院科室,信息中心页,地区]
+            [docName,docID,p,l,dp,il,rg] = row.strip().split(defaultSeperator)
             counter+=1
             print('No '+str(counter)+', Crawling online consults of '+docName+', '+docID)
             if docID=='':
