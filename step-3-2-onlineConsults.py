@@ -12,8 +12,6 @@ wait = 1
 defaultHeaders = {'User-Agent':'', 'Cookie':'newaskindex=1'}
 defaultSeperator = ','
 
-# sourceFilePath = 'D:/haodfdata/step-2-result.csv'
-# resultFilePath = 'D:/haodfdata/step-3-2-result.csv'
 sourceFilePath = './step-2-result.csv'
 resultFilePath = './step-3-2-result.csv'
 
