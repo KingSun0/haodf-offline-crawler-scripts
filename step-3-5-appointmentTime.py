@@ -27,10 +27,11 @@ with open(sourceFilePath) as sf:
 
     with open(resultFilePath, 'w') as rf:
 
-        rf.write(defaultSeperator.join(['医生姓名','科室','最近可约时间']))
+        rf.write(defaultSeperator.join(['医生姓名','医生ID','科室','最近可约时间','信息中心页','地区']))
         for row in sf:
 
-            [n,i,p,l] = row.strip().split(defaultSeperator)
+            # [n,i,p,l,dp,il,rg] ~= [医生姓名,医生ID,个人网站,评价分享链接,医院科室,信息中心页,地区]
+            [n,i,p,l,dp,il,rg] = row.strip().split(defaultSeperator)
             if i=='':
                 continue
             counter+=1
@@ -46,7 +47,7 @@ with open(sourceFilePath) as sf:
                 if len(aptBlock) > 0:
                     aptTime = aptBlock[0].text.strip()
 
-                rf.write('\n'+defaultSeperator.join([n,department,aptTime]))
+                rf.write('\n'+defaultSeperator.join([n,i,department,aptTime,il,rg]))
 
             except Exception as e:
                 traceback.print_exc()
