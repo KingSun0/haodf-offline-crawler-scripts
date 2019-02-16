@@ -35,8 +35,9 @@ with open(sourceFilePath) as sf:
 
     with open(resultFilePath, 'w') as rf:
 
-        rf.write(defaultSeperator.join(['医生姓名','职称','科室',
-                                        '擅长','执业经历','信息中心页','地区']))
+        rf.write(defaultSeperator.join(['医生姓名','职称','科室','擅长','执业经历',
+                                        '医生热度','患者投票详情','患者分享统计',
+                                        '信息中心页','地区']))
         for row in sf:
 
             # [n,i,p,l,dp,il,rg] ~= [医生姓名,医生ID,个人网站,评价分享链接,医院科室,信息中心页,地区]
@@ -48,6 +49,9 @@ with open(sourceFilePath) as sf:
             docp = ''
             dstg = ''
             dexp = ''
+            dhot = ''
+            dvot = ''
+            dsha = ''
 
             try:
 
@@ -76,15 +80,22 @@ with open(sourceFilePath) as sf:
                             if len(fullExp) > 0:
                                 dexp = fullExp[0].text.strip().encode().decode('unicode-escape').replace('<< 收起','')
 
-                # TODO: 医生患者投票板块
-                # doctorPanel = re.search(r'\<div class=\\\"doctor_panel\\\"\>.*(\<div class=\\\"middletr\\\"\>.*?)\<div class=\\\"bottomtr\\\"\>',res0.text).group(1)
-                # doctorPanel = decodeHtml(doctorPanel)
-                # dPTrList = BeautifulSoup(doctorPanel,'html.parser').select('tr')
-                # print(len(dPTrList))
+                # 医生热度板块
+                dhot = re.search(r'\<p class=\\\"r\-p\-l\-score\\\"\>(.*?)\<',res0.text).group(1).strip()
 
-                # TODO: 医生患者分享板块
+                # 医生患者投票板块
+                doctorVote = re.search(r'"id":"bp_doctor_getvote".*?\<div class=\\\"doctor_panel\\\"\>.*(\<div class=\\\"middletr\\\"\>.*?)\<div class=\\\"bottomtr\\\"\>',res0.text).group(1)
+                doctorVote = decodeHtml(doctorVote)
+                ltDivLinks = BeautifulSoup(doctorVote,'html.parser').select('.ltdiv')[0].select('a')
+                dvot = ''.join([a.text.strip().encode().decode('unicode-escape').replace('评价/投票','').replace('票','票'+secondarySeperator).replace('查看两年前患者投票'+secondarySeperator+'(','两年前患者投票').replace('票'+secondarySeperator+')>>','票') for a in ltDivLinks])
 
-                rf.write('\n'+defaultSeperator.join([n,docp,ddep,dstg,dexp,il,rg]))
+                # 医生患者分享板块
+                doctorShare = re.search(r'"id":"bp_doctor_share".*?\<div class=\\\"doctor_panel\\\"\>.*(\<div class=\\\"toptr\\\".*?)\<div class=\\\"middletr\\\"\>',res0.text).group(1)
+                doctorShare = decodeHtml(doctorShare)
+                ltDivs = BeautifulSoup(doctorShare,'html.parser').select('.lt > div')
+                dsha = ''.join([div.text.strip().encode().decode('unicode-escape').replace('\n','').replace(')',')'+secondarySeperator) for div in ltDivs])
+
+                rf.write('\n'+defaultSeperator.join([n,docp,ddep,dstg,dexp,dhot,dvot,dsha,il,rg]))
 
             except Exception as e:
                 traceback.print_exc()
