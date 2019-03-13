@@ -161,7 +161,7 @@ print('Starting crawling doctor info links ...')
 doctorInfoPages = dict()
 counter = 0
 
-with open(resultFilePath, "a") as f:
+with open(resultFilePath, "w") as f:
 
     f.write(defaultSeperator.join(['医生姓名','医院科室','信息中心页','地区']))
 
