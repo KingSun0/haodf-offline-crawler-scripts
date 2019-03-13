@@ -73,22 +73,22 @@ def grabDepartmentData(hList,inDepKeys,exDepKeys,inHosKeys,exHosKeys):
                 # 默认不抓取
                 needed = False
 
-                # 抓取含有关键字的科室(在130行添加 includedDepartmentKeywords)
+                # 抓取含有关键字的科室(在144行添加 includedDepartmentKeywords)
                 for indkey in inDepKeys:
                     if indkey in d.text:
                         needed = True
 
-                # 剔除含有关键字的科室(在131行添加 excludedDepartmentKeywords)
+                # 剔除含有关键字的科室(在145行添加 excludedDepartmentKeywords)
                 for exdkey in exDepKeys:
                     if exdkey in d.text:
                         needed = False
 
-                # 抓取指定医院所有科室(在132行添加 includedHospitalKeywords)
+                # 抓取指定医院所有科室(在146行添加 includedHospitalKeywords)
                 for inhkey in inHosKeys:
                     if inhkey in h:
                         needed = True
 
-                # 剔除指定医院所有科室(在133行添加 excludedHospitalKeywords)
+                # 剔除指定医院所有科室(在147行添加 excludedHospitalKeywords)
                 for exhkey in exHosKeys:
                     if exhkey in h:
                         needed = False
