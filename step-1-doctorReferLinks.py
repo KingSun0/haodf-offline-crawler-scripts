@@ -85,12 +85,12 @@ def grabDepartmentData(hList,inDepKeys,exDepKeys,inHosKeys,exHosKeys):
 
                 # 抓取指定医院所有科室(在146行添加 includedHospitalKeywords)
                 for inhkey in inHosKeys:
-                    if inhkey in h:
+                    if inhkey in h[1]:
                         needed = True
 
                 # 剔除指定医院所有科室(在147行添加 excludedHospitalKeywords)
                 for exhkey in exHosKeys:
-                    if exhkey in h:
+                    if exhkey in h[1]:
                         needed = False
 
                 # 依据以上逻辑判断运行
@@ -141,10 +141,10 @@ print('Finished crawling hospital pages, totally '+str(len(hospitalList))+' hosp
 
 print('Starting crawling department pages ...')
 
-includedDepartmentKeywords = ['骨','足','脊柱','手足','手外','关节','伤','运动']
-excludedDepartmentKeywords = ['儿','烧','口']
-includedHospitalKeywords   = []
-excludedHospitalKeywords   = ['儿','妇幼']
+includedDepartmentKeywords = ['儿']
+excludedDepartmentKeywords = []
+includedHospitalKeywords   = ['儿']
+excludedHospitalKeywords   = []
 
 departmentList = grabDepartmentData(hospitalList,
                                     includedDepartmentKeywords,
